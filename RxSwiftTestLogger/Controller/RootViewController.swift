@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import RxSwift
 
 class RootViewController: UIViewController{
 
@@ -24,6 +25,9 @@ class RootViewController: UIViewController{
             }
         }
     }
+    
+    private let disposeBag = DisposeBag()
+
     //MARK : UI Component
     lazy var container: UIStackView = {
        let view = UIStackView()
@@ -45,7 +49,7 @@ class RootViewController: UIViewController{
         var subjectDictioany = [SubjectType : SubjectView]()
         SubjectType.allCases.sorted().forEach{ subjectType in
             let subjectView = SubjectView()
-            subjectView.configureView(title: subjectType.description)
+            subjectView.configureView(type: subjectType)
             subjectDictioany.updateValue(subjectView, forKey: subjectType)
         }
         return subjectDictioany
@@ -67,7 +71,6 @@ class RootViewController: UIViewController{
     
     //MARK : Methods
     func configureUI() {
-      
         view.addSubview(container)
         container.snp.makeConstraints{ (make) in
             make.centerX.centerY.width.height.equalTo(view.safeAreaLayoutGuide)
@@ -89,6 +92,44 @@ class RootViewController: UIViewController{
             let view = subjectViews[subjectType]
             subjectContainer.addArrangedSubview(view!)
         }
+    }
+    
+    func configureBinding(){
+        subjectViews.keys.sorted().forEach{subjectType in
+            let view = subjectViews[subjectType]
+            view?.configureEvent(type: subjectType)
+                .subscribe(onNext: { (type, action) in
+                    switch action {
+                    case .subscribeClick :
+                        self.tappedSubscribeButton(type: type)
+                    case .onNextClick :
+                        self.tappedOnNextButton(type: type)
+                    case .onErrorClick :
+                        self.tappedOnErrorButton(type: type)
+                    case .onCompleteClick :
+                        self.tappedOnCompleteButton(type: type)
+                    case .onDisposeClick :
+                        self.tappedOnDisposeButton(type: type)
+                    }
+                }).disposed(by: disposeBag)
+        }
+    }
+}
+
+extension RootViewController{
+    func tappedSubscribeButton(type: SubjectType){
+        
+    }
+    func tappedOnNextButton(type: SubjectType){
+        
+    }
+    func tappedOnErrorButton(type: SubjectType){
+        
+    }
+    func tappedOnCompleteButton(type: SubjectType){
+        
+    }
+    func tappedOnDisposeButton(type: SubjectType){
         
     }
 }

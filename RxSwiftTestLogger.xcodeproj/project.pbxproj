@@ -12,6 +12,8 @@
 		206BC89828DAD2280018AF04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 206BC89728DAD2280018AF04 /* Assets.xcassets */; };
 		206BC89B28DAD2280018AF04 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 206BC89928DAD2280018AF04 /* LaunchScreen.storyboard */; };
 		206BC8A428DAD2540018AF04 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206BC8A328DAD2540018AF04 /* RootViewController.swift */; };
+		20B9B20429348710004B7D06 /* RxGesture in Frameworks */ = {isa = PBXBuildFile; productRef = 20B9B20329348710004B7D06 /* RxGesture */; };
+		20B9B20729348B12004B7D06 /* SubjectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20B9B20629348B12004B7D06 /* SubjectManager.swift */; };
 		20D702D42933638A007F6EAD /* SubjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D702D32933638A007F6EAD /* SubjectView.swift */; };
 		20D702D629336EC7007F6EAD /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D702D529336EC7007F6EAD /* LogView.swift */; };
 		20D702DD2933927C007F6EAD /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 20D702DC2933927C007F6EAD /* RxCocoa */; };
@@ -28,6 +30,7 @@
 		206BC89A28DAD2280018AF04 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		206BC89C28DAD2280018AF04 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		206BC8A328DAD2540018AF04 /* RootViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		20B9B20629348B12004B7D06 /* SubjectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectManager.swift; sourceTree = "<group>"; };
 		20D702D32933638A007F6EAD /* SubjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectView.swift; sourceTree = "<group>"; };
 		20D702D529336EC7007F6EAD /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -39,6 +42,7 @@
 			files = (
 				20D702E12933927C007F6EAD /* RxSwift in Frameworks */,
 				20D702E429339286007F6EAD /* SnapKit in Frameworks */,
+				20B9B20429348710004B7D06 /* RxGesture in Frameworks */,
 				20D702DF2933927C007F6EAD /* RxRelay in Frameworks */,
 				20D702DD2933927C007F6EAD /* RxCocoa in Frameworks */,
 			);
@@ -66,6 +70,7 @@
 		206BC88D28DAD2260018AF04 /* RxSwiftTestLogger */ = {
 			isa = PBXGroup;
 			children = (
+				20B9B20529348B05004B7D06 /* Service */,
 				20D702D22933637E007F6EAD /* View */,
 				206BC8A228DAD2390018AF04 /* Controller */,
 				206BC88E28DAD2260018AF04 /* AppDelegate.swift */,
@@ -84,6 +89,14 @@
 				206BC8A328DAD2540018AF04 /* RootViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		20B9B20529348B05004B7D06 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				20B9B20629348B12004B7D06 /* SubjectManager.swift */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 		20D702D22933637E007F6EAD /* View */ = {
@@ -123,6 +136,7 @@
 				20D702DE2933927C007F6EAD /* RxRelay */,
 				20D702E02933927C007F6EAD /* RxSwift */,
 				20D702E329339286007F6EAD /* SnapKit */,
+				20B9B20329348710004B7D06 /* RxGesture */,
 			);
 			productName = Example_Programatic;
 			productReference = 206BC88B28DAD2260018AF04 /* RxSwiftTestLogger.app */;
@@ -155,6 +169,7 @@
 			packageReferences = (
 				20D702DB2933927C007F6EAD /* XCRemoteSwiftPackageReference "RxSwift" */,
 				20D702E229339286007F6EAD /* XCRemoteSwiftPackageReference "SnapKit" */,
+				20B9B20229348710004B7D06 /* XCRemoteSwiftPackageReference "RxGesture" */,
 			);
 			productRefGroup = 206BC88C28DAD2260018AF04 /* Products */;
 			projectDirPath = "";
@@ -182,6 +197,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				20B9B20729348B12004B7D06 /* SubjectManager.swift in Sources */,
 				206BC88F28DAD2260018AF04 /* AppDelegate.swift in Sources */,
 				206BC8A428DAD2540018AF04 /* RootViewController.swift in Sources */,
 				206BC89128DAD2260018AF04 /* SceneDelegate.swift in Sources */,
@@ -396,6 +412,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		20B9B20229348710004B7D06 /* XCRemoteSwiftPackageReference "RxGesture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxGesture";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		20D702DB2933927C007F6EAD /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift";
@@ -415,6 +439,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		20B9B20329348710004B7D06 /* RxGesture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 20B9B20229348710004B7D06 /* XCRemoteSwiftPackageReference "RxGesture" */;
+			productName = RxGesture;
+		};
 		20D702DC2933927C007F6EAD /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 20D702DB2933927C007F6EAD /* XCRemoteSwiftPackageReference "RxSwift" */;

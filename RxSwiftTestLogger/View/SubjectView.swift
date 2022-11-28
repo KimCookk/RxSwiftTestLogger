@@ -8,9 +8,13 @@
 import Foundation
 import UIKit
 import SnapKit
+import RxSwift
+import RxGesture
 
 class SubjectView: UIView{
     
+    
+    /// MARK: View Compoent
     lazy var subjectLabel: UILabel = {
        let label = UILabel()
         label.sizeToFit()
@@ -78,9 +82,10 @@ class SubjectView: UIView{
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureView(title: String){
+    func configureView(type: RootViewController.SubjectType){
         self.addSubview(subjectLabel)
-        subjectLabel.text = "[ \(title) ]"
+        
+        subjectLabel.text = "[ \(type.description) ]"
         subjectLabel.snp.makeConstraints{ (make) in
             make.top.equalToSuperview().offset(10)
             make.left.equalToSuperview().offset(10)
@@ -103,4 +108,30 @@ class SubjectView: UIView{
         
     }
     
+}
+
+extension SubjectView{
+    enum Action{
+        case subscribeClick, onNextClick, onErrorClick, onDisposeClick, onCompleteClick
+    }
+    
+    func configureEvent(type: RootViewController.SubjectType) -> Observable<(RootViewController.SubjectType, Action)> {
+        Observable.merge(
+            subscribeButton.rx.tapGesture().when(.recognized).map{ _ in
+                return (type, Action.subscribeClick)
+            },
+            onNextButton.rx.tapGesture().when(.recognized).map{ _ in
+                return (type, Action.onNextClick)
+            },
+            onErrorButton.rx.tapGesture().when(.recognized).map{ _ in
+                return (type, Action.onErrorClick)
+            },
+            onCompleteButton.rx.tapGesture().when(.recognized).map{ _ in
+                return (type, Action.onCompleteClick)
+            },
+            onDisposeButton.rx.tapGesture().when(.recognized).map{ _ in
+                return (type, Action.onDisposeClick)
+            }
+        )
+    }
 }
