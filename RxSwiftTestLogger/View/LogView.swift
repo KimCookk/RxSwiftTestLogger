@@ -21,7 +21,7 @@ class LogView: UIView {
     
     lazy var logViewer: UILabel = {
         let label = UILabel()
-        label.text = "[ LogViewer ]"
+        label.text = "[ LogViewer ]\n"
         label.numberOfLines = 0
         return label
     }()

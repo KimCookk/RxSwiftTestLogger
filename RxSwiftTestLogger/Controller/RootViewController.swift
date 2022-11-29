@@ -25,7 +25,7 @@ class RootViewController: UIViewController{
             }
         }
     }
-    
+    private let subjectManager = SubjectManager()
     private let disposeBag = DisposeBag()
 
     //MARK : UI Component
@@ -67,6 +67,7 @@ class RootViewController: UIViewController{
         super.viewDidLoad()
         view.backgroundColor = .white
         configureUI()
+        configureBinding()
     }
     
     //MARK : Methods
@@ -108,28 +109,38 @@ class RootViewController: UIViewController{
                         self.tappedOnErrorButton(type: type)
                     case .onCompleteClick :
                         self.tappedOnCompleteButton(type: type)
-                    case .onDisposeClick :
-                        self.tappedOnDisposeButton(type: type)
+                    case .infoClick :
+                        self.tappedInfoButton(type: type)
                     }
+                    
                 }).disposed(by: disposeBag)
         }
+        
+        subjectManager.getMessageObservable().subscribe(onNext: { [weak self] message in
+            guard let self = self else {
+                return
+            }
+            self.logViewer.log(message)
+        }).disposed(by: disposeBag)
+        
     }
 }
 
 extension RootViewController{
     func tappedSubscribeButton(type: SubjectType){
-        
+        subjectManager.subscribe(type: type)
     }
     func tappedOnNextButton(type: SubjectType){
-        
+        subjectManager.onNext(type: type)
     }
     func tappedOnErrorButton(type: SubjectType){
-        
+        subjectManager.onError(type: type)
     }
     func tappedOnCompleteButton(type: SubjectType){
-        
+        subjectManager.onComplete(type: type)
     }
-    func tappedOnDisposeButton(type: SubjectType){
-        
+    func tappedInfoButton(type: SubjectType){
+        subjectManager.subjectInfo(type: type)
     }
+
 }

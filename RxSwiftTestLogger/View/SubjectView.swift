@@ -13,12 +13,17 @@ import RxGesture
 
 class SubjectView: UIView{
     
-    
     /// MARK: View Compoent
     lazy var subjectLabel: UILabel = {
        let label = UILabel()
         label.sizeToFit()
         return label
+    }()
+    
+    lazy var infoButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "info.circle.fill"), for: .normal)
+        return button
     }()
     
     lazy var buttonContainer: UIStackView = {
@@ -65,14 +70,6 @@ class SubjectView: UIView{
         return button
     }()
     
-    lazy var onDisposeButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .systemBlue
-        button.setTitle("onDispose", for: .normal)
-        button.titleLabel?.adjustsFontSizeToFitWidth = true
-
-        return button
-    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -92,6 +89,14 @@ class SubjectView: UIView{
             make.height.equalToSuperview().multipliedBy(0.3)
         }
         
+        self.addSubview(infoButton)
+        infoButton.snp.makeConstraints{ (make) in
+            make.top.equalToSuperview().offset(10)
+            make.right.equalToSuperview().offset(-10)
+            make.height.equalToSuperview().multipliedBy(0.3)
+            make.width.equalToSuperview().multipliedBy(0.1)
+        }
+        
         self.addSubview(buttonContainer)
         buttonContainer.snp.makeConstraints{ (make) in
             make.top.equalTo(subjectLabel.snp.bottom).offset(5)
@@ -103,7 +108,6 @@ class SubjectView: UIView{
         buttonContainer.addArrangedSubview(subscribeButton)
         buttonContainer.addArrangedSubview(onNextButton)
         buttonContainer.addArrangedSubview(onErrorButton)
-        buttonContainer.addArrangedSubview(onDisposeButton)
         buttonContainer.addArrangedSubview(onCompleteButton)
         
     }
@@ -112,7 +116,7 @@ class SubjectView: UIView{
 
 extension SubjectView{
     enum Action{
-        case subscribeClick, onNextClick, onErrorClick, onDisposeClick, onCompleteClick
+        case subscribeClick, onNextClick, onErrorClick, onCompleteClick, infoClick
     }
     
     func configureEvent(type: RootViewController.SubjectType) -> Observable<(RootViewController.SubjectType, Action)> {
@@ -129,8 +133,8 @@ extension SubjectView{
             onCompleteButton.rx.tapGesture().when(.recognized).map{ _ in
                 return (type, Action.onCompleteClick)
             },
-            onDisposeButton.rx.tapGesture().when(.recognized).map{ _ in
-                return (type, Action.onDisposeClick)
+            infoButton.rx.tapGesture().when(.recognized).map{ _ in
+                return (type, Action.infoClick)
             }
         )
     }
