@@ -18,13 +18,19 @@ class SubjectManager{
     private let behaviroSubject = BehaviorSubject<Int>(value: 0)
     
     private let messageSubject = PublishSubject<String>()
+    private var idArray = Array(1...1000)
+    private var observerUnits: [ObserverUnit] = []
     
-    private var observerUnits: [String: ObserverUnit] = [:]
     
     func subscribe(type: RootViewController.SubjectType){
-        let id = "\(Int.random(in: 1...1000))"
-        let observerUnit = ObserverUnit(id: id, type: type.description, messageObserver: messageSubject.asObserver())
-        observerUnits[id] = observerUnit
+        if(!ObserverUnit.enableCreate()){
+            messageSubject.onNext("Don't Subscribe because max count!")
+            return
+        }
+        
+        
+        let observerUnit = ObserverUnit(type: type.description, messageObserver: messageSubject.asObserver())
+        observerUnits.append(observerUnit)
         let observable: Observable<Int>
         switch type{
             case .Asyn :
@@ -87,14 +93,14 @@ class SubjectManager{
     }
     
     func subjectInfo(type: RootViewController.SubjectType){
-        var observerList: [String] = []
-        observerUnits.forEach{ (id, observerUnit) in
+        var observerList: [Int] = []
+        observerUnits.forEach{ (observerUnit) in
             let subjectType = observerUnit.subjectType
             if(subjectType == type.description){
-                observerList.append(id)
+                observerList.append(observerUnit.id)
             }
         }
-        messageSubject.onNext("\(observerList)")
+        messageSubject.onNext("\(type.description) : \(observerList)")
     }
     
     func getMessageObservable() -> PublishSubject<String>{
@@ -104,14 +110,15 @@ class SubjectManager{
 }
 
 class ObserverUnit{
+    static var idArray = Array(1...100).shuffled()
     private let disposeBag = DisposeBag()
     
-    let id: String
+    let id: Int
     let subjectType: String
     var messageObserver: AnyObserver<String>
     
-    init(id: String, type: String, messageObserver: AnyObserver<String>){
-        self.id = id
+    init(type: String, messageObserver: AnyObserver<String>){
+        self.id = ObserverUnit.idArray.remove(at: 0)
         self.subjectType = type
         self.messageObserver = messageObserver
     }
@@ -148,9 +155,17 @@ class ObserverUnit{
                 }
                 message = "[\(self.id)] onDisposed"
                 self.messageObserver.onNext(message)
+                
             })
             .disposed(by: disposeBag)
-        
     }
     
+    static func enableCreate() -> Bool {
+        var enable = true
+        if(idArray.count == 0){
+            enable = false
+        }
+        
+        return enable
+    }
 }

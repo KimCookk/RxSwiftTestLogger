@@ -109,9 +109,7 @@ class SubjectView: UIView{
         buttonContainer.addArrangedSubview(onNextButton)
         buttonContainer.addArrangedSubview(onErrorButton)
         buttonContainer.addArrangedSubview(onCompleteButton)
-        
     }
-    
 }
 
 extension SubjectView{

@@ -10,6 +10,10 @@ import UIKit
 
 class LogView: UIView {
     
+    var isUpdatedScroll = true
+    
+   
+    
     lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
         scroll.isScrollEnabled = true
@@ -50,10 +54,28 @@ class LogView: UIView {
             make.top.bottom.left.right.equalTo(scrollView.contentLayoutGuide)
             
         }
+        
+        let timer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true, block: { [weak self] timer in
+            guard let self = self else {
+                return
+            }
+            self.scrollUpdate()
+        })
     }
     
     func log(_ logContent: String){
         logViewer.text! += "\(logContent)\n"
+        isUpdatedScroll = false
+    }
+    
+    func scrollUpdate(){
+        if(!isUpdatedScroll){
+            let bottomOffset = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.height + scrollView.contentInset.bottom)
+            if(bottomOffset.y > 0){
+                scrollView.setContentOffset(bottomOffset, animated: true)
+            }
+            isUpdatedScroll = true
+        }
     }
     
 }
